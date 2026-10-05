@@ -1,0 +1,13 @@
+{
+  "name": "task-management-system",
+  "version": "1.0.0",
+  "description": "Collaborative task and project management application with drag-and-drop scheduling, deadline notifications, and velocity tracking.",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx serve .",
+    "start": "npx serve ."
+  },
+  "keywords": ["task-management", "kanban", "drag-and-drop", "calendar", "productivity"],
+  "author": "Antigravity",
+  "license": "MIT"
+}

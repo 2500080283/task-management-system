@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskFlow Pro | Collaborative Task & Project Management</title>
+  <meta name="description" content="Next-gen collaborative task management suite featuring Kanban drag-and-drop, date scheduler calendar, Pomodoro focus timer, team administration, and real-time audit logs.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-layout" id="app">
+    <!-- Left Navigation Sidebar -->
+    <aside class="app-sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-left">
+          <div class="brand-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 11 12 14 22 4"></polyline>
+              <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+            </svg>
+          </div>
+          <div class="brand-details">
+            <h2>TaskFlow <span>Pro</span></h2>
+            <span class="workspace-label">Team Workspace</span>
+          </div>
+        </div>
+        <button id="closeSidebarBtn" class="sidebar-close-btn" aria-label="Close sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+      </div>
+
+      <!-- Quick Action: Create Task -->
+      <div class="sidebar-action">
+        <button id="openNewTaskModalBtn" class="btn btn-primary btn-block">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+          New Task
+        </button>
+      </div>
+
+      <!-- Views Navigation -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-title">Core Views</div>
+        <ul class="nav-list">
+          <li>
+            <button class="nav-item active" data-view="kanbanView" id="navKanban">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"></rect><rect x="14" y="3" width="7" height="11" rx="1"></rect></svg>
+              <span>Kanban Board</span>
+              <span class="nav-badge" id="totalTasksCountBadge">0</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item" data-view="calendarView" id="navCalendar">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+              <span>Scheduler Calendar</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item" data-view="listView" id="navTable">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+              <span>Prioritized Table</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item" data-view="analyticsView" id="navAnalytics">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
+              <span>Progress Analytics</span>
+            </button>
+          </li>
+        </ul>
+
+        <!-- Modules Section: User and Admin Modules -->
+        <div class="nav-section-title">Dedicated Modules</div>
+        <ul class="nav-list">
+          <li>
+            <button class="nav-item" data-view="userDashboardView" id="navUserDashboard">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span>My Work & Focus</span>
+              <span class="nav-badge" id="myAssignedCountBadge">0</span>
+            </button>
+          </li>
+          <li>
+            <button class="nav-item nav-item-admin" data-view="adminView" id="navAdmin">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              <span>Admin Console</span>
+              <span class="nav-badge nav-badge-admin" id="adminLockBadge">ADMIN</span>
+            </button>
+          </li>
+        </ul>
+
+        <!-- Projects Filter Section -->
+        <div class="nav-section-title-row">
+          <span class="nav-section-title">Projects</span>
+          <button id="openNewProjectBtn" class="btn-icon-subtle" title="Create New Project" aria-label="Create New Project">+</button>
+        </div>
+        <ul class="projects-list" id="projectsListNav">
+          <!-- Populated by JavaScript -->
+        </ul>
+      </nav>
+
+      <!-- User Session Strip & Role Switcher Popout Trigger -->
+      <div class="sidebar-user-footer" id="sidebarUserFooter" title="Click to Switch Persona or Role">
+        <div class="user-avatar-wrap">
+          <div class="user-avatar user-avatar-admin" id="sidebarUserAvatar">AR</div>
+          <div class="user-status-dot" id="sidebarUserStatusDot"></div>
+        </div>
+        <div class="user-meta">
+          <div class="user-name" id="sidebarUserName">Alex Rivera</div>
+          <span class="user-role-badge admin" id="sidebarUserRoleBadge">👑 Admin</span>
+        </div>
+        <svg class="user-footer-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <div class="workspace-wrapper">
+      <!-- Top Action Bar -->
+      <header class="top-bar">
+        <div class="top-bar-left">
+          <button id="mobileMenuBtn" class="mobile-menu-btn" aria-label="Toggle Navigation Menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+          <!-- Search & Filter Controls -->
+          <div class="top-bar-search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="taskSearchInput" placeholder="Search tasks, subtasks, descriptions... (Press /)">
+            <kbd class="kbd-shortcut">/</kbd>
+          </div>
+        </div>
+
+        <div class="top-bar-controls">
+          <!-- Priority Filter -->
+          <div class="filter-pill-group">
+            <label for="priorityFilterSelect" class="sr-only">Filter by Priority</label>
+            <select id="priorityFilterSelect" class="custom-select select-sm" style="height: 36px; padding: 0.2rem 0.6rem;">
+              <option value="all">All Priorities</option>
+              <option value="Urgent">🚨 Urgent</option>
+              <option value="High">🔥 High</option>
+              <option value="Medium">⚡ Medium</option>
+              <option value="Low">🌱 Low</option>
+            </select>
+          </div>
+
+          <!-- Quick Role Switch Pill -->
+          <button id="quickRoleSwitchBtn" class="role-switch-pill admin-active" title="Switch between Admin and Standard User modes">
+            <span id="rolePillIcon">👑</span>
+            <span id="rolePillText">Admin Mode</span>
+          </button>
+
+          <!-- Audio Sound Effects Toggle -->
+          <button id="soundToggleBtn" class="btn-icon" title="Toggle Sound Feedback (Micro-interactions)" aria-label="Sound Toggle">
+            <svg id="soundIconOn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+            <svg id="soundIconOff" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          </button>
+
+          <!-- Dark / Light Theme Toggle -->
+          <button id="themeToggleBtn" class="btn-icon" title="Toggle Dark / Light Theme" aria-label="Toggle Theme">
+            <svg id="themeIconSun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg id="themeIconMoon" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+
+          <!-- Notification Bell & Flyout Popout -->
+          <div class="notification-dropdown-wrapper">
+            <button id="notificationBellBtn" class="btn-icon bell-btn" title="Upcoming Deadlines & Notifications" aria-label="Notifications" aria-expanded="false">
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+              </svg>
+              <span class="notification-pulse-badge" id="notificationBadgeCount">0</span>
+            </button>
+
+            <!-- Slide-down Notification Drawer Popout -->
+            <div class="notification-tray" id="notificationTray">
+              <div class="tray-header">
+                <h4>Deadline & Activity Alerts</h4>
+                <button id="markAllReadBtn" class="btn-link">Mark all read</button>
+              </div>
+              <div class="tray-list" id="notificationList">
+                <!-- Injected via JavaScript -->
+              </div>
+              <div class="tray-footer">
+                <button id="requestBrowserNotifBtn" class="btn btn-outline btn-sm btn-block">Enable Native System Alerts</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Collaborative Sharing Quick Button -->
+          <button id="shareWorkspaceBtn" class="btn btn-outline" title="Share Project or Export Summary">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            Share
+          </button>
+        </div>
+      </header>
+
+      <!-- Active Project Banner -->
+      <section class="active-project-bar" id="activeProjectBanner">
+        <div class="project-banner-info">
+          <div class="project-tag-circle" id="bannerProjectColor"></div>
+          <div>
+            <h3 id="bannerProjectTitle">All Workspace Projects</h3>
+            <p id="bannerProjectDesc">12 total tasks &bull; 5 approaching deadlines &bull; 62% Sprint Completion</p>
+          </div>
+        </div>
+        <div class="project-progress-wrap">
+          <div class="progress-bar-label">
+            <span>Overall Sprint Progress</span>
+            <strong id="bannerProgressPercent">0%</strong>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill" id="bannerProgressFill" style="width: 0%;"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Main Panels -->
+      <main class="main-viewport">
+        <!-- VIEW 1: KANBAN BOARD (DRAG-AND-DROP) -->
+        <section id="kanbanView" class="view-panel active">
+          <div class="kanban-board-container" id="kanbanBoard">
+            <!-- Column 1: Backlog -->
+            <div class="kanban-column" data-status="backlog">
+              <div class="column-header">
+                <div class="col-title-wrap">
+                  <span class="col-status-indicator indicator-backlog"></span>
+                  <h4>Backlog</h4>
+                  <span class="col-count" id="countBacklog">0</span>
+                </div>
+                <button class="col-quick-add" data-status="backlog" title="Add task to Backlog">+</button>
+              </div>
+              <div class="column-droppable" id="drop-backlog" data-status="backlog"></div>
+            </div>
+
+            <!-- Column 2: To Do -->
+            <div class="kanban-column" data-status="todo">
+              <div class="column-header">
+                <div class="col-title-wrap">
+                  <span class="col-status-indicator indicator-todo"></span>
+                  <h4>To Do</h4>
+                  <span class="col-count" id="countTodo">0</span>
+                </div>
+                <button class="col-quick-add" data-status="todo" title="Add task to To Do">+</button>
+              </div>
+              <div class="column-droppable" id="drop-todo" data-status="todo"></div>
+            </div>
+
+            <!-- Column 3: In Progress -->
+            <div class="kanban-column" data-status="in-progress">
+              <div class="column-header">
+                <div class="col-title-wrap">
+                  <span class="col-status-indicator indicator-in-progress"></span>
+                  <h4>In Progress</h4>
+                  <span class="col-count" id="countInProgress">0</span>
+                </div>
+                <button class="col-quick-add" data-status="in-progress" title="Add task to In Progress">+</button>
+              </div>
+              <div class="column-droppable" id="drop-in-progress" data-status="in-progress"></div>
+            </div>
+
+            <!-- Column 4: In Review -->
+            <div class="kanban-column" data-status="review">
+              <div class="column-header">
+                <div class="col-title-wrap">
+                  <span class="col-status-indicator indicator-review"></span>
+                  <h4>In Review</h4>
+                  <span class="col-count" id="countReview">0</span>
+                </div>
+                <button class="col-quick-add" data-status="review" title="Add task to Review">+</button>
+              </div>
+              <div class="column-droppable" id="drop-review" data-status="review"></div>
+            </div>
+
+            <!-- Column 5: Completed -->
+            <div class="kanban-column" data-status="done">
+              <div class="column-header">
+                <div class="col-title-wrap">
+                  <span class="col-status-indicator indicator-done"></span>
+                  <h4>Completed</h4>
+                  <span class="col-count" id="countDone">0</span>
+                </div>
+                <button class="col-quick-add" data-status="done" title="Add completed task">+</button>
+              </div>
+              <div class="column-droppable" id="drop-done" data-status="done"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 2: SCHEDULER CALENDAR (DRAG-AND-DROP DATES) -->
+        <section id="calendarView" class="view-panel">
+          <div class="calendar-container">
+            <div class="calendar-header-bar">
+              <div class="cal-nav">
+                <button id="calPrevMonthBtn" class="btn btn-icon btn-sm" aria-label="Previous Month">&larr;</button>
+                <h3 id="calCurrentMonthLabel">March 2026</h3>
+                <button id="calNextMonthBtn" class="btn btn-icon btn-sm" aria-label="Next Month">&rarr;</button>
+                <button id="calTodayBtn" class="btn btn-outline btn-sm">Today</button>
+              </div>
+              <div class="cal-legend">
+                <span class="legend-hint">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 10"></polyline></svg>
+                  Tip: Drag any task into calendar day cells to instantly reschedule its deadline!
+                </span>
+              </div>
+            </div>
+
+            <!-- Calendar Days Grid -->
+            <div class="calendar-grid">
+              <div class="cal-weekday-header">Sun</div>
+              <div class="cal-weekday-header">Mon</div>
+              <div class="cal-weekday-header">Tue</div>
+              <div class="cal-weekday-header">Wed</div>
+              <div class="cal-weekday-header">Thu</div>
+              <div class="cal-weekday-header">Fri</div>
+              <div class="cal-weekday-header">Sat</div>
+              <div class="cal-days-body" id="calendarDaysBody">
+                <!-- Dynamically populated 35 or 42 calendar date cells -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 3: PRIORITIZED LIST / TABLE VIEW -->
+        <section id="listView" class="view-panel">
+          <div class="table-card">
+            <div class="table-card-header">
+              <h3>Prioritized Tasks Directory</h3>
+              <div class="table-filters">
+                <span class="text-muted" id="tableFilterCount">Showing 0 tasks</span>
+              </div>
+            </div>
+            <div class="table-responsive">
+              <table class="tasks-table">
+                <thead>
+                  <tr>
+                    <th style="width: 44px;">Done</th>
+                    <th class="sortable" id="thTitle">Task Title & Subtasks &udhar;</th>
+                    <th class="sortable" id="thProject">Project &udhar;</th>
+                    <th class="sortable" id="thPriority">Priority &udhar;</th>
+                    <th class="sortable" id="thDeadline">Deadline &udhar;</th>
+                    <th class="sortable" id="thStatus">Status &udhar;</th>
+                    <th>Assignee</th>
+                    <th style="text-align: right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="tasksTableBody">
+                  <!-- Populated by JavaScript -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 4: PROGRESS ANALYTICS & VELOCITY -->
+        <section id="analyticsView" class="view-panel">
+          <div class="analytics-layout">
+            <!-- Top Summary Metric Cards -->
+            <div class="metrics-row">
+              <div class="metric-card">
+                <div class="metric-label">Total Workload</div>
+                <div class="metric-val" id="metricTotalTasks">0</div>
+                <div class="metric-sub text-muted">Tasks in current sprint</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Completion Velocity</div>
+                <div class="metric-val text-success" id="metricCompletedTasks">0</div>
+                <div class="metric-sub" id="metricCompletionRate">0% resolved</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">In-Flight Tasks</div>
+                <div class="metric-val text-accent" id="metricActiveTasks">0</div>
+                <div class="metric-sub">Across active projects</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Urgent / Overdue</div>
+                <div class="metric-val text-danger" id="metricUrgentTasks">0</div>
+                <div class="metric-sub">Requires team attention</div>
+              </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="charts-two-col">
+              <!-- Chart 1: Priority Distribution Bar -->
+              <div class="chart-card">
+                <h4>Tasks by Priority Level</h4>
+                <div class="chart-canvas-wrap">
+                  <canvas id="priorityChartCanvas" width="520" height="240"></canvas>
+                </div>
+              </div>
+
+              <!-- Chart 2: Project Progress & Velocity -->
+              <div class="chart-card">
+                <h4>Project Completion Velocity</h4>
+                <div class="chart-canvas-wrap">
+                  <canvas id="velocityChartCanvas" width="520" height="240"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- Team Workload Collaboration Summary -->
+            <div class="chart-card">
+              <h4>Collaborative Team Workload</h4>
+              <div class="team-workload-grid" id="teamWorkloadGrid">
+                <!-- Injected via JavaScript -->
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 5: USER FUNCTIONALITY MODULE ("My Work" Personal Workspace) -->
+        <section id="userDashboardView" class="view-panel">
+          <div class="user-dashboard-layout">
+            <!-- Left: Personal Agenda & Priorities -->
+            <div class="user-agenda-column">
+              <div class="agenda-section-card">
+                <div class="agenda-section-header">
+                  <h4>
+                    <span>⚡</span> My Focus Tasks (Assigned to You)
+                  </h4>
+                  <span class="badge-priority priority-Medium" id="myFocusStatsBadge">0 Active</span>
+                </div>
+                <div class="my-tasks-list" id="myTasksListContainer">
+                  <!-- Populated by JavaScript -->
+                </div>
+              </div>
+
+              <!-- Completed Work Stream -->
+              <div class="agenda-section-card">
+                <div class="agenda-section-header">
+                  <h4>
+                    <span>🎉</span> Recently Completed by You
+                  </h4>
+                  <span class="text-muted" style="font-size: 0.8rem;" id="myCompletedCountLabel">0 completed</span>
+                </div>
+                <div class="my-tasks-list" id="myCompletedTasksContainer">
+                  <!-- Populated by JavaScript -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Pomodoro Timer & Scratchpad -->
+            <div class="user-widgets-column" style="display: flex; flex-direction: column; gap: 1.5rem;">
+              <!-- Pomodoro Focus Timer Card -->
+              <div class="pomodoro-card">
+                <div class="pomodoro-header">
+                  <h4>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    Pomodoro Focus Timer
+                  </h4>
+                  <span id="pomoSessionsCounter" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">0 Sessions</span>
+                </div>
+
+                <div class="pomo-mode-tabs">
+                  <button class="pomo-tab active" data-mode="focus">Focus (25m)</button>
+                  <button class="pomo-tab" data-mode="shortBreak">Short (5m)</button>
+                  <button class="pomo-tab" data-mode="longBreak">Long (15m)</button>
+                </div>
+
+                <div class="pomo-circle-container">
+                  <svg class="pomo-svg" viewBox="0 0 200 200">
+                    <circle class="pomo-circle-bg" cx="100" cy="100" r="90"></circle>
+                    <circle class="pomo-circle-progress" id="pomoCircleProgress" cx="100" cy="100" r="90"></circle>
+                  </svg>
+                  <div class="pomo-time-display">
+                    <span class="pomo-digits" id="pomoTimeDigits">25:00</span>
+                    <span class="pomo-state-label" id="pomoStateLabel">Ready to Focus</span>
+                  </div>
+                </div>
+
+                <div class="pomo-controls-row">
+                  <button id="pomoStartPauseBtn" class="btn btn-primary btn-block">Start Focus</button>
+                  <button id="pomoResetBtn" class="btn btn-outline">Reset</button>
+                </div>
+
+                <div class="pomo-task-select-wrap">
+                  <label for="pomoTaskSelect" class="form-label" style="text-align: left;">Focus Task Link:</label>
+                  <select id="pomoTaskSelect" class="custom-select select-sm">
+                    <option value="">-- Select a task to focus on --</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Personal Daily Scratchpad -->
+              <div class="scratchpad-card">
+                <h4>
+                  <span>📝 Personal Daily Scratchpad</span>
+                  <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 500;">Auto-saved</span>
+                </h4>
+                <textarea id="personalScratchpadText" class="scratchpad-textarea" placeholder="Record quick standup updates, blockers, or ideas..."></textarea>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW 6: ADMIN FUNCTIONALITY MODULE ("Admin Console") -->
+        <section id="adminView" class="view-panel">
+          <div class="admin-layout">
+            <!-- Admin Header Banner -->
+            <div class="admin-header-banner">
+              <div class="admin-header-left">
+                <div class="admin-shield-icon">
+                  <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                </div>
+                <div>
+                  <h3>Admin Control Center & Governance</h3>
+                  <p>Manage workspace members, project portfolios, system audit logs, and operational governance policies.</p>
+                </div>
+              </div>
+              <div class="admin-header-actions">
+                <button id="adminAddMemberBtn" class="btn btn-admin">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="23" y1="11" x2="17" y2="11"></line></svg>
+                  Add Team Member
+                </button>
+              </div>
+            </div>
+
+            <!-- Admin Sub-tabs Navigation -->
+            <div class="admin-tabs-nav">
+              <button class="admin-tab-btn active" data-tab="tabUsers">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                Team Members & Roles
+              </button>
+              <button class="admin-tab-btn" data-tab="tabProjects">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                Project Portfolio
+              </button>
+              <button class="admin-tab-btn" data-tab="tabAudit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                System Audit Log
+              </button>
+              <button class="admin-tab-btn" data-tab="tabPolicies">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                Governance & Policies
+              </button>
+            </div>
+
+            <!-- Tab 1: Users & Team Management -->
+            <div id="tabUsers" class="admin-tab-panel active">
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <h4>Team Directory & Role Assignment</h4>
+                  <span class="text-muted" id="adminUserCountLabel">5 Members</span>
+                </div>
+                <div class="table-responsive">
+                  <table class="tasks-table">
+                    <thead>
+                      <tr>
+                        <th>Member</th>
+                        <th>Role Title</th>
+                        <th>Permission Level</th>
+                        <th>Assigned Workload</th>
+                        <th>Status</th>
+                        <th style="text-align: right;">Admin Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="adminUsersTableBody">
+                      <!-- Populated by JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 2: Project Portfolio Management -->
+            <div id="tabProjects" class="admin-tab-panel">
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <h4>Active Project Portfolios</h4>
+                  <button id="adminCreateProjBtn" class="btn btn-primary btn-sm">+ Add Project</button>
+                </div>
+                <div class="table-responsive">
+                  <table class="tasks-table">
+                    <thead>
+                      <tr>
+                        <th>Project Name</th>
+                        <th>Description</th>
+                        <th>Task Count</th>
+                        <th>Progress</th>
+                        <th style="text-align: right;">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="adminProjectsTableBody">
+                      <!-- Populated by JavaScript -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 3: System Audit Log -->
+            <div id="tabAudit" class="admin-tab-panel">
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <h4>Real-Time System Audit Trail</h4>
+                  <div style="display: flex; gap: 0.5rem;">
+                    <button id="adminClearAuditBtn" class="btn btn-outline btn-sm">Clear Logs</button>
+                    <button id="adminExportAuditBtn" class="btn btn-primary btn-sm">Export Audit JSON</button>
+                  </div>
+                </div>
+                <div class="audit-log-stream" id="adminAuditLogStream">
+                  <!-- Injected via JavaScript -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Tab 4: Governance & Policies -->
+            <div id="tabPolicies" class="admin-tab-panel">
+              <div class="admin-card">
+                <div class="admin-card-header">
+                  <h4>Workspace Operational Governance</h4>
+                </div>
+                <div class="policies-grid">
+                  <div class="policy-item">
+                    <div class="policy-info">
+                      <h5>Enforce Deadlines</h5>
+                      <p>Require valid deadlines for all new tasks created</p>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" id="policyRequireDeadline" checked>
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="policy-item">
+                    <div class="policy-info">
+                      <h5>Member Deletion Rights</h5>
+                      <p>Allow non-admins to permanently delete tasks</p>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" id="policyAllowMemberDelete">
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="policy-item">
+                    <div class="policy-info">
+                      <h5>Audio & Sound Effects</h5>
+                      <p>Enable satisfying synthesized haptic feedback</p>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" id="policySoundEffects" checked>
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+
+                  <div class="policy-item">
+                    <div class="policy-info">
+                      <h5>Auto-Archive Completed</h5>
+                      <p>Hide tasks completed more than 14 days ago</p>
+                    </div>
+                    <label class="switch">
+                      <input type="checkbox" id="policyAutoArchive">
+                      <span class="slider"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle); display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                  <button id="adminPurgeCompletedBtn" class="btn btn-outline btn-sm text-danger">Purge Completed Tasks</button>
+                  <button id="adminEscalateOverdueBtn" class="btn btn-outline btn-sm">Escalate Overdue Tasks to Urgent</button>
+                  <button id="adminResetDataBtn" class="btn btn-outline btn-sm text-danger" style="margin-left: auto;">Reset Workspace to Demo Data</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- FLOATING QUICK ACTION DOCK -->
+    <div class="floating-quick-dock" id="floatingQuickDock">
+      <button class="dock-btn dock-btn-primary" id="dockNewTaskBtn" title="Create New Task (N)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        <span>New</span>
+      </button>
+      <div class="dock-separator"></div>
+      <button class="dock-btn" id="dockMyWorkBtn" title="Go to My Work">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>My Work</span>
+      </button>
+      <button class="dock-btn" id="dockKanbanBtn" title="Kanban Board">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="18" rx="1"></rect><rect x="14" y="3" width="7" height="11" rx="1"></rect></svg>
+        <span>Board</span>
+      </button>
+      <button class="dock-btn" id="dockAdminBtn" title="Admin Console">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span>Admin</span>
+      </button>
+    </div>
+
+    <!-- POPOUT 1: QUICK TASK PEEK POPOUT -->
+    <div class="quick-peek-popout" id="quickPeekPopout">
+      <div class="peek-header">
+        <span class="badge-priority priority-Medium" id="peekPriority">Medium</span>
+        <button id="closeQuickPeekBtn" class="dialog-close-btn">&times;</button>
+      </div>
+      <div class="peek-title" id="peekTitle">Task Title</div>
+      <div class="peek-desc" id="peekDesc">Task description preview...</div>
+      <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.65rem;" id="peekMeta">Assigned to: Alex &bull; Due: Tomorrow</div>
+      <div class="peek-actions-row">
+        <button id="peekToggleDoneBtn" class="btn btn-outline btn-sm" style="flex: 1;">Complete</button>
+        <button id="peekSnoozeBtn" class="btn btn-outline btn-sm">+1 Day</button>
+        <button id="peekOpenFullBtn" class="btn btn-primary btn-sm">Open</button>
+      </div>
+    </div>
+
+    <!-- POPOUT 2: USER PROFILE & PERSONA SWITCHER POPOUT -->
+    <div class="user-profile-popout" id="userProfilePopout">
+      <div class="popout-user-header">
+        <div class="user-avatar user-avatar-admin" id="popoutAvatar">AR</div>
+        <div>
+          <div style="font-size: 0.9rem; font-weight: 800; color: var(--text-main);" id="popoutName">Alex Rivera</div>
+          <div style="font-size: 0.725rem; color: var(--text-muted);" id="popoutRoleTitle">Engineering Lead</div>
+        </div>
+      </div>
+
+      <div class="popout-section-title">Switch Active Persona / Role</div>
+      <ul class="role-select-list" id="roleSelectList">
+        <!-- Dynamically rendered team member persona items -->
+      </ul>
+
+      <div class="popout-section-title">Availability Status</div>
+      <ul class="status-select-list" id="statusSelectList">
+        <li class="status-select-item selected" data-status="online">🟢 Available</li>
+        <li class="status-select-item" data-status="focus">⚡ Deep Focus</li>
+        <li class="status-select-item" data-status="busy">📅 In Meetings</li>
+        <li class="status-select-item" data-status="offline">⚪ Away</li>
+      </ul>
+    </div>
+
+    <!-- MODAL 1: TASK DETAILS & COLLABORATIVE EDITOR -->
+    <dialog id="taskModal" class="app-dialog modal-large">
+      <div class="dialog-content">
+        <header class="dialog-header">
+          <div class="badge-priority priority-Medium" id="modalStatusBadge">In Progress</div>
+          <div class="modal-actions-right">
+            <button id="modalShareTaskBtn" class="btn-icon" title="Copy Task Link" aria-label="Share Task">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+            </button>
+            <button id="modalDeleteTaskBtn" class="btn-icon text-danger" title="Delete Task" aria-label="Delete Task">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+            </button>
+            <button id="closeTaskModalBtn" class="dialog-close-btn" aria-label="Close modal">&times;</button>
+          </div>
+        </header>
+
+        <form id="taskForm">
+          <div class="dialog-body modal-scrollable">
+            <div class="task-modal-layout">
+              <!-- Left: Core Information -->
+              <div class="task-modal-main">
+                <div class="form-group">
+                  <label for="taskTitleInput" class="form-label">Task Title *</label>
+                  <input type="text" id="taskTitleInput" class="form-control" placeholder="What needs to be accomplished?" required>
+                </div>
+
+                <div class="form-group mt-2">
+                  <label for="taskDescInput" class="form-label">Description & Acceptance Criteria</label>
+                  <textarea id="taskDescInput" rows="4" class="form-control" placeholder="Context, requirements, technical specifications, and links..."></textarea>
+                </div>
+
+                <!-- Subtasks Checklist -->
+                <div class="subtasks-section mt-3">
+                  <div class="subtasks-header">
+                    <h5 style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">Subtasks Checklist (<span id="subtasksRatio">0/0</span>)</h5>
+                    <div class="subtasks-progress-bar">
+                      <div class="subtasks-progress-fill" id="subtasksProgressFill" style="width: 0%;"></div>
+                    </div>
+                  </div>
+                  <ul class="subtasks-list" id="subtasksList">
+                    <!-- Populated dynamically -->
+                  </ul>
+                  <div class="add-subtask-row mt-2">
+                    <input type="text" id="newSubtaskInput" class="form-control select-sm" placeholder="Add checklist step...">
+                    <button type="button" id="addSubtaskBtn" class="btn btn-outline btn-sm">+ Add</button>
+                  </div>
+                </div>
+
+                <!-- Collaborative Activity & Comments Feed -->
+                <div class="activity-section mt-4">
+                  <h5 style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">Team Activity & Discussions</h5>
+                  <div class="comments-stream" id="commentsStream">
+                    <!-- Populated dynamically -->
+                  </div>
+                  <div class="comment-input-box mt-2">
+                    <textarea id="newCommentInput" rows="2" class="form-control select-sm" placeholder="Write a comment or status update..."></textarea>
+                    <button type="button" id="postCommentBtn" class="btn btn-primary btn-sm mt-1">Post Comment</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right: Metadata & Scheduling Controls -->
+              <aside class="task-modal-sidebar">
+                <div class="form-group">
+                  <label for="taskProjectSelect" class="form-label">Project</label>
+                  <select id="taskProjectSelect" class="custom-select" required>
+                    <!-- Injected projects -->
+                  </select>
+                </div>
+
+                <div class="form-group mt-2">
+                  <label for="taskStatusSelect" class="form-label">Workflow Status</label>
+                  <select id="taskStatusSelect" class="custom-select">
+                    <option value="backlog">Backlog</option>
+                    <option value="todo">To Do</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="review">In Review</option>
+                    <option value="done">Completed</option>
+                  </select>
+                </div>
+
+                <div class="form-group mt-2">
+                  <label for="taskPrioritySelect" class="form-label">Priority</label>
+                  <select id="taskPrioritySelect" class="custom-select">
+                    <option value="Urgent">🚨 Urgent</option>
+                    <option value="High">🔥 High</option>
+                    <option value="Medium" selected>⚡ Medium</option>
+                    <option value="Low">🌱 Low</option>
+                  </select>
+                </div>
+
+                <div class="form-group mt-2">
+                  <label for="taskDeadlineInput" class="form-label">Due Date & Deadline *</label>
+                  <input type="date" id="taskDeadlineInput" class="form-control" required>
+                  <span class="deadline-countdown-badge" id="modalDeadlineCountdown">--</span>
+                </div>
+
+                <div class="form-group mt-2">
+                  <label for="taskAssigneeSelect" class="form-label">Assignee</label>
+                  <select id="taskAssigneeSelect" class="custom-select">
+                    <!-- Populated with team members -->
+                  </select>
+                </div>
+
+                <!-- Complete Task Quick Button -->
+                <div class="modal-complete-action mt-3">
+                  <button type="button" id="modalToggleDoneBtn" class="btn btn-outline btn-block">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span id="modalToggleDoneText">Mark as Completed</span>
+                  </button>
+                </div>
+              </aside>
+            </div>
+          </div>
+
+          <footer class="dialog-footer">
+            <button type="button" id="cancelTaskModalBtn" class="btn btn-outline">Cancel</button>
+            <button type="submit" class="btn btn-primary" id="saveTaskBtn">Save Changes</button>
+          </footer>
+        </form>
+      </div>
+    </dialog>
+
+    <!-- MODAL 2: NEW PROJECT CREATION -->
+    <dialog id="newProjectModal" class="app-dialog">
+      <div class="dialog-content">
+        <header class="dialog-header">
+          <h3>Create New Project</h3>
+          <button id="closeNewProjectModalBtn" class="dialog-close-btn">&times;</button>
+        </header>
+        <form id="newProjectForm">
+          <div class="dialog-body modal-scrollable">
+            <div class="form-group">
+              <label for="newProjectTitle" class="form-label">Project Name *</label>
+              <input type="text" id="newProjectTitle" class="form-control" placeholder="e.g. 🚀 Q4 Product Launch" required>
+            </div>
+            <div class="form-group mt-2">
+              <label for="newProjectDesc" class="form-label">Project Goal & Scope</label>
+              <textarea id="newProjectDesc" rows="3" class="form-control" placeholder="Describe the objectives and milestones..."></textarea>
+            </div>
+            <div class="form-group mt-2">
+              <label for="newProjectColor" class="form-label">Theme Color Accent</label>
+              <input type="color" id="newProjectColor" value="#4f46e5" style="width: 100%; height: 40px; border: 1px solid var(--border-medium); border-radius: var(--radius-sm); cursor: pointer;">
+            </div>
+          </div>
+          <footer class="dialog-footer">
+            <button type="button" id="cancelProjectModalBtn" class="btn btn-outline">Cancel</button>
+            <button type="submit" class="btn btn-primary">Create Project</button>
+          </footer>
+        </form>
+      </div>
+    </dialog>
+
+    <!-- MODAL 3: SHARE & COLLABORATION SUMMARY -->
+    <dialog id="shareModal" class="app-dialog">
+      <div class="dialog-content">
+        <header class="dialog-header">
+          <h3>Collaborative Sharing & Export</h3>
+          <button id="closeShareModalBtn" class="dialog-close-btn">&times;</button>
+        </header>
+        <div class="dialog-body modal-scrollable">
+          <p class="text-muted" style="font-size: 0.85rem;">Share task snapshots with your team or export task coordination digests.</p>
+          <div class="form-group mt-2">
+            <label for="shareLinkInput" class="form-label">Direct Task Workspace Link:</label>
+            <div class="share-copy-row">
+              <input type="text" id="shareLinkInput" class="form-control" readonly value="https://taskflow.vercel.app/workspace/sprint-2026">
+              <button id="copyShareLinkBtn" class="btn btn-outline">Copy</button>
+            </div>
+          </div>
+
+          <div class="export-actions-row mt-3">
+            <button id="exportJsonBtn" class="btn btn-outline btn-block">Download Workspace JSON</button>
+            <button id="copyMarkdownSummaryBtn" class="btn btn-primary btn-block">Copy Markdown Digest</button>
+          </div>
+        </div>
+      </div>
+    </dialog>
+
+    <!-- MODAL 4: ADMIN ADD TEAM MEMBER -->
+    <dialog id="addMemberModal" class="app-dialog">
+      <div class="dialog-content">
+        <header class="dialog-header">
+          <h3>Invite / Add Team Member</h3>
+          <button id="closeAddMemberModalBtn" class="dialog-close-btn">&times;</button>
+        </header>
+        <form id="addMemberForm">
+          <div class="dialog-body modal-scrollable">
+            <div class="form-group">
+              <label for="newMemberName" class="form-label">Full Name *</label>
+              <input type="text" id="newMemberName" class="form-control" placeholder="e.g. Taylor Morgan" required>
+            </div>
+            <div class="form-group mt-2">
+              <label for="newMemberRole" class="form-label">Job Title / Department *</label>
+              <input type="text" id="newMemberRole" class="form-control" placeholder="e.g. Senior Security Engineer" required>
+            </div>
+            <div class="form-group mt-2">
+              <label for="newMemberPermission" class="form-label">Workspace Permission Level *</label>
+              <select id="newMemberPermission" class="custom-select">
+                <option value="Member">Team Member (Standard Access)</option>
+                <option value="Manager">Project Manager (Can manage projects)</option>
+                <option value="Admin">Workspace Admin (Full Control)</option>
+              </select>
+            </div>
+          </div>
+          <footer class="dialog-footer">
+            <button type="button" id="cancelAddMemberBtn" class="btn btn-outline">Cancel</button>
+            <button type="submit" class="btn btn-admin">Add Member</button>
+          </footer>
+        </form>
+      </div>
+    </dialog>
+
+    <!-- MODAL 5: CUSTOM CONFIRMATION MODAL -->
+    <dialog id="confirmModal" class="app-dialog" style="max-width: 440px;">
+      <div class="dialog-content">
+        <header class="dialog-header">
+          <h4 id="confirmModalTitle" style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);">Confirm Action</h4>
+          <button id="closeConfirmModalBtn" class="dialog-close-btn">&times;</button>
+        </header>
+        <div class="dialog-body modal-scrollable">
+          <p id="confirmModalMessage" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">Are you sure you want to proceed?</p>
+        </div>
+        <footer class="dialog-footer">
+          <button type="button" id="confirmCancelBtn" class="btn btn-outline">Cancel</button>
+          <button type="button" id="confirmProceedBtn" class="btn btn-danger">Confirm</button>
+        </footer>
+      </div>
+    </dialog>
+
+    <!-- MODAL 6: PERMISSION GUARD MODAL -->
+    <dialog id="permissionGuardModal" class="app-dialog" style="max-width: 460px;">
+      <div class="dialog-content">
+        <header class="dialog-header">
+          <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--admin-badge); display: flex; align-items: center; gap: 0.4rem;">
+            <span>🛡️</span> Admin Permission Required
+          </h4>
+          <button id="closePermissionGuardBtn" class="dialog-close-btn">&times;</button>
+        </header>
+        <div class="dialog-body modal-scrollable">
+          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">
+            This module requires <strong>Workspace Administrator</strong> privileges. You are currently browsing as a <strong>Team Member</strong>.
+          </p>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.6rem;">
+            Would you like to temporarily elevate your role to Admin (Alex Rivera) to test this module?
+          </p>
+        </div>
+        <footer class="dialog-footer">
+          <button type="button" id="stayAsMemberBtn" class="btn btn-outline">Stay as Member</button>
+          <button type="button" id="elevateToAdminBtn" class="btn btn-admin">Switch to Admin Role</button>
+        </footer>
+      </div>
+    </dialog>
+
+    <!-- Toast Notification Container -->
+    <div id="toastNotification" class="toast-notification" role="status" aria-live="polite"></div>
+
+    <!-- Canvas Confetti Container -->
+    <canvas id="confettiCanvas" class="confetti-canvas"></canvas>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
