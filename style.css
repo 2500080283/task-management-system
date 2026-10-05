@@ -795,6 +795,7 @@ body {
 
 .progress-fill {
   background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+  width: 0%;
   height: 100%;
   border-radius: var(--radius-full);
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -2437,6 +2438,162 @@ input:checked + .slider:before {
 .mt-2 { margin-top: 0.75rem; }
 .mt-3 { margin-top: 1rem; }
 .mt-4 { margin-top: 1.5rem; }
+
+/* ==========================================================================
+   COMPONENT & UTILITY REFINEMENTS (Replacing inline styles)
+   ========================================================================== */
+.priority-filter-select {
+  height: 36px;
+  padding: 0.2rem 0.6rem;
+}
+
+.hidden-icon {
+  display: none;
+}
+
+.th-done {
+  width: 44px;
+}
+
+.th-actions-right {
+  text-align: right;
+}
+
+.text-completed-count {
+  font-size: 0.8rem;
+}
+
+.user-widgets-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.pomo-sessions-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.text-left {
+  text-align: left;
+}
+
+.scratchpad-autosave-badge {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.audit-header-btns {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.admin-danger-actions-row {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.peek-meta-info {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-bottom: 0.65rem;
+}
+
+.popout-user-name {
+  font-size: 0.9rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.popout-user-role {
+  font-size: 0.725rem;
+  color: var(--text-muted);
+}
+
+.subtasks-checklist-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+.subtasks-progress-fill {
+  width: 0%;
+}
+
+.activity-feed-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 0.5rem;
+}
+
+.color-picker-input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  background: transparent;
+}
+
+.share-modal-desc {
+  font-size: 0.85rem;
+}
+
+.modal-sm {
+  max-width: 440px;
+}
+
+.confirm-modal-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--text-main);
+}
+
+.confirm-modal-msg {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.modal-guard {
+  max-width: 460px;
+}
+
+.permission-guard-title {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--admin-badge);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.guard-primary-text {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.guard-secondary-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.6rem;
+}
 
 /* Responsive Queries */
 @media (max-width: 1024px) {

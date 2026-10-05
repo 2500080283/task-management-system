@@ -125,7 +125,7 @@
           <!-- Search & Filter Controls -->
           <div class="top-bar-search">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" id="taskSearchInput" placeholder="Search tasks, subtasks, descriptions... (Press /)">
+            <input type="text" id="taskSearchInput" placeholder="Search tasks, subtasks, descriptions... (Press /)" aria-label="Search tasks, subtasks, descriptions">
             <kbd class="kbd-shortcut">/</kbd>
           </div>
         </div>
@@ -134,7 +134,7 @@
           <!-- Priority Filter -->
           <div class="filter-pill-group">
             <label for="priorityFilterSelect" class="sr-only">Filter by Priority</label>
-            <select id="priorityFilterSelect" class="custom-select select-sm" style="height: 36px; padding: 0.2rem 0.6rem;">
+            <select id="priorityFilterSelect" class="custom-select select-sm priority-filter-select">
               <option value="all">All Priorities</option>
               <option value="Urgent">🚨 Urgent</option>
               <option value="High">🔥 High</option>
@@ -152,13 +152,13 @@
           <!-- Audio Sound Effects Toggle -->
           <button id="soundToggleBtn" class="btn-icon" title="Toggle Sound Feedback (Micro-interactions)" aria-label="Sound Toggle">
             <svg id="soundIconOn" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
-            <svg id="soundIconOff" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+            <svg id="soundIconOff" class="hidden-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
           </button>
 
           <!-- Dark / Light Theme Toggle -->
           <button id="themeToggleBtn" class="btn-icon" title="Toggle Dark / Light Theme" aria-label="Toggle Theme">
             <svg id="themeIconSun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <svg id="themeIconMoon" style="display:none;" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <svg id="themeIconMoon" class="hidden-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
           </button>
 
           <!-- Notification Bell & Flyout Popout -->
@@ -209,7 +209,7 @@
             <strong id="bannerProgressPercent">0%</strong>
           </div>
           <div class="progress-track">
-            <div class="progress-fill" id="bannerProgressFill" style="width: 0%;"></div>
+            <div class="progress-fill" id="bannerProgressFill"></div>
           </div>
         </div>
       </section>
@@ -333,14 +333,14 @@
               <table class="tasks-table">
                 <thead>
                   <tr>
-                    <th style="width: 44px;">Done</th>
+                    <th class="th-done">Done</th>
                     <th class="sortable" id="thTitle">Task Title & Subtasks &udhar;</th>
                     <th class="sortable" id="thProject">Project &udhar;</th>
                     <th class="sortable" id="thPriority">Priority &udhar;</th>
                     <th class="sortable" id="thDeadline">Deadline &udhar;</th>
                     <th class="sortable" id="thStatus">Status &udhar;</th>
                     <th>Assignee</th>
-                    <th style="text-align: right;">Actions</th>
+                    <th class="th-actions-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody id="tasksTableBody">
@@ -430,7 +430,7 @@
                   <h4>
                     <span>🎉</span> Recently Completed by You
                   </h4>
-                  <span class="text-muted" style="font-size: 0.8rem;" id="myCompletedCountLabel">0 completed</span>
+                  <span class="text-muted text-completed-count" id="myCompletedCountLabel">0 completed</span>
                 </div>
                 <div class="my-tasks-list" id="myCompletedTasksContainer">
                   <!-- Populated by JavaScript -->
@@ -439,7 +439,7 @@
             </div>
 
             <!-- Right: Pomodoro Timer & Scratchpad -->
-            <div class="user-widgets-column" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            <div class="user-widgets-column">
               <!-- Pomodoro Focus Timer Card -->
               <div class="pomodoro-card">
                 <div class="pomodoro-header">
@@ -447,7 +447,7 @@
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                     Pomodoro Focus Timer
                   </h4>
-                  <span id="pomoSessionsCounter" style="font-size: 0.75rem; font-weight: 700; color: var(--primary);">0 Sessions</span>
+                  <span id="pomoSessionsCounter" class="pomo-sessions-badge">0 Sessions</span>
                 </div>
 
                 <div class="pomo-mode-tabs">
@@ -473,7 +473,7 @@
                 </div>
 
                 <div class="pomo-task-select-wrap">
-                  <label for="pomoTaskSelect" class="form-label" style="text-align: left;">Focus Task Link:</label>
+                  <label for="pomoTaskSelect" class="form-label text-left">Focus Task Link:</label>
                   <select id="pomoTaskSelect" class="custom-select select-sm">
                     <option value="">-- Select a task to focus on --</option>
                   </select>
@@ -484,7 +484,7 @@
               <div class="scratchpad-card">
                 <h4>
                   <span>📝 Personal Daily Scratchpad</span>
-                  <span style="font-size: 0.7rem; color: var(--text-muted); font-weight: 500;">Auto-saved</span>
+                  <span class="scratchpad-autosave-badge">Auto-saved</span>
                 </h4>
                 <textarea id="personalScratchpadText" class="scratchpad-textarea" placeholder="Record quick standup updates, blockers, or ideas..."></textarea>
               </div>
@@ -550,7 +550,7 @@
                         <th>Permission Level</th>
                         <th>Assigned Workload</th>
                         <th>Status</th>
-                        <th style="text-align: right;">Admin Actions</th>
+                        <th class="th-actions-right">Admin Actions</th>
                       </tr>
                     </thead>
                     <tbody id="adminUsersTableBody">
@@ -576,7 +576,7 @@
                         <th>Description</th>
                         <th>Task Count</th>
                         <th>Progress</th>
-                        <th style="text-align: right;">Actions</th>
+                        <th class="th-actions-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody id="adminProjectsTableBody">
@@ -592,7 +592,7 @@
               <div class="admin-card">
                 <div class="admin-card-header">
                   <h4>Real-Time System Audit Trail</h4>
-                  <div style="display: flex; gap: 0.5rem;">
+                  <div class="audit-header-btns">
                     <button id="adminClearAuditBtn" class="btn btn-outline btn-sm">Clear Logs</button>
                     <button id="adminExportAuditBtn" class="btn btn-primary btn-sm">Export Audit JSON</button>
                   </div>
@@ -612,53 +612,53 @@
                 <div class="policies-grid">
                   <div class="policy-item">
                     <div class="policy-info">
-                      <h5>Enforce Deadlines</h5>
+                      <label for="policyRequireDeadline"><h5>Enforce Deadlines</h5></label>
                       <p>Require valid deadlines for all new tasks created</p>
                     </div>
-                    <label class="switch">
-                      <input type="checkbox" id="policyRequireDeadline" checked>
+                    <label class="switch" for="policyRequireDeadline">
+                      <input type="checkbox" id="policyRequireDeadline" title="Enforce Deadlines" aria-label="Enforce Deadlines" checked>
                       <span class="slider"></span>
                     </label>
                   </div>
 
                   <div class="policy-item">
                     <div class="policy-info">
-                      <h5>Member Deletion Rights</h5>
+                      <label for="policyAllowMemberDelete"><h5>Member Deletion Rights</h5></label>
                       <p>Allow non-admins to permanently delete tasks</p>
                     </div>
-                    <label class="switch">
-                      <input type="checkbox" id="policyAllowMemberDelete">
+                    <label class="switch" for="policyAllowMemberDelete">
+                      <input type="checkbox" id="policyAllowMemberDelete" title="Member Deletion Rights" aria-label="Member Deletion Rights">
                       <span class="slider"></span>
                     </label>
                   </div>
 
                   <div class="policy-item">
                     <div class="policy-info">
-                      <h5>Audio & Sound Effects</h5>
+                      <label for="policySoundEffects"><h5>Audio & Sound Effects</h5></label>
                       <p>Enable satisfying synthesized haptic feedback</p>
                     </div>
-                    <label class="switch">
-                      <input type="checkbox" id="policySoundEffects" checked>
+                    <label class="switch" for="policySoundEffects">
+                      <input type="checkbox" id="policySoundEffects" title="Audio & Sound Effects" aria-label="Audio & Sound Effects" checked>
                       <span class="slider"></span>
                     </label>
                   </div>
 
                   <div class="policy-item">
                     <div class="policy-info">
-                      <h5>Auto-Archive Completed</h5>
+                      <label for="policyAutoArchive"><h5>Auto-Archive Completed</h5></label>
                       <p>Hide tasks completed more than 14 days ago</p>
                     </div>
-                    <label class="switch">
-                      <input type="checkbox" id="policyAutoArchive">
+                    <label class="switch" for="policyAutoArchive">
+                      <input type="checkbox" id="policyAutoArchive" title="Auto-Archive Completed" aria-label="Auto-Archive Completed">
                       <span class="slider"></span>
                     </label>
                   </div>
                 </div>
 
-                <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle); display: flex; flex-wrap: wrap; gap: 0.75rem;">
+                <div class="admin-danger-actions-row">
                   <button id="adminPurgeCompletedBtn" class="btn btn-outline btn-sm text-danger">Purge Completed Tasks</button>
                   <button id="adminEscalateOverdueBtn" class="btn btn-outline btn-sm">Escalate Overdue Tasks to Urgent</button>
-                  <button id="adminResetDataBtn" class="btn btn-outline btn-sm text-danger" style="margin-left: auto;">Reset Workspace to Demo Data</button>
+                  <button id="adminResetDataBtn" class="btn btn-outline btn-sm text-danger ml-auto">Reset Workspace to Demo Data</button>
                 </div>
               </div>
             </div>
@@ -696,9 +696,9 @@
       </div>
       <div class="peek-title" id="peekTitle">Task Title</div>
       <div class="peek-desc" id="peekDesc">Task description preview...</div>
-      <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.65rem;" id="peekMeta">Assigned to: Alex &bull; Due: Tomorrow</div>
+      <div class="peek-meta-info" id="peekMeta">Assigned to: Admin &bull; Due: Tomorrow</div>
       <div class="peek-actions-row">
-        <button id="peekToggleDoneBtn" class="btn btn-outline btn-sm" style="flex: 1;">Complete</button>
+        <button id="peekToggleDoneBtn" class="btn btn-outline btn-sm flex-1">Complete</button>
         <button id="peekSnoozeBtn" class="btn btn-outline btn-sm">+1 Day</button>
         <button id="peekOpenFullBtn" class="btn btn-primary btn-sm">Open</button>
       </div>
@@ -709,8 +709,8 @@
       <div class="popout-user-header">
         <div class="user-avatar user-avatar-admin" id="popoutAvatar">AD</div>
         <div>
-          <div style="font-size: 0.9rem; font-weight: 800; color: var(--text-main);" id="popoutName">Admin</div>
-          <div style="font-size: 0.725rem; color: var(--text-muted);" id="popoutRoleTitle">Workspace Administrator</div>
+          <div class="popout-user-name" id="popoutName">Admin</div>
+          <div class="popout-user-role" id="popoutRoleTitle">Workspace Administrator</div>
         </div>
       </div>
 
@@ -762,9 +762,9 @@
                 <!-- Subtasks Checklist -->
                 <div class="subtasks-section mt-3">
                   <div class="subtasks-header">
-                    <h5 style="font-size: 0.85rem; font-weight: 700; color: var(--text-main);">Subtasks Checklist (<span id="subtasksRatio">0/0</span>)</h5>
+                    <h5 class="subtasks-checklist-title">Subtasks Checklist (<span id="subtasksRatio">0/0</span>)</h5>
                     <div class="subtasks-progress-bar">
-                      <div class="subtasks-progress-fill" id="subtasksProgressFill" style="width: 0%;"></div>
+                      <div class="subtasks-progress-fill" id="subtasksProgressFill"></div>
                     </div>
                   </div>
                   <ul class="subtasks-list" id="subtasksList">
@@ -778,7 +778,7 @@
 
                 <!-- Collaborative Activity & Comments Feed -->
                 <div class="activity-section mt-4">
-                  <h5 style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.5rem;">Team Activity & Discussions</h5>
+                  <h5 class="activity-feed-title">Team Activity & Discussions</h5>
                   <div class="comments-stream" id="commentsStream">
                     <!-- Populated dynamically -->
                   </div>
@@ -821,7 +821,7 @@
 
                 <div class="form-group mt-2">
                   <label for="taskDeadlineInput" class="form-label">Due Date & Deadline *</label>
-                  <input type="date" id="taskDeadlineInput" class="form-control" required>
+                  <input type="date" id="taskDeadlineInput" class="form-control" aria-label="Due Date & Deadline" required>
                   <span class="deadline-countdown-badge" id="modalDeadlineCountdown">--</span>
                 </div>
 
@@ -870,7 +870,7 @@
             </div>
             <div class="form-group mt-2">
               <label for="newProjectColor" class="form-label">Theme Color Accent</label>
-              <input type="color" id="newProjectColor" value="#4f46e5" style="width: 100%; height: 40px; border: 1px solid var(--border-medium); border-radius: var(--radius-sm); cursor: pointer;">
+              <input type="color" id="newProjectColor" class="color-picker-input" value="#4f46e5" aria-label="Theme Color Accent" title="Theme Color Accent">
             </div>
           </div>
           <footer class="dialog-footer">
@@ -889,11 +889,11 @@
           <button id="closeShareModalBtn" class="dialog-close-btn">&times;</button>
         </header>
         <div class="dialog-body modal-scrollable">
-          <p class="text-muted" style="font-size: 0.85rem;">Share task snapshots with your team or export task coordination digests.</p>
+          <p class="text-muted share-modal-desc">Share task snapshots with your team or export task coordination digests.</p>
           <div class="form-group mt-2">
             <label for="shareLinkInput" class="form-label">Direct Task Workspace Link:</label>
             <div class="share-copy-row">
-              <input type="text" id="shareLinkInput" class="form-control" readonly value="https://taskflow.vercel.app/workspace/sprint-2026">
+              <input type="text" id="shareLinkInput" class="form-control" readonly value="https://taskflow.vercel.app/workspace/sprint-2026" aria-label="Direct Task Workspace Link">
               <button id="copyShareLinkBtn" class="btn btn-outline">Copy</button>
             </div>
           </div>
@@ -941,14 +941,14 @@
     </dialog>
 
     <!-- MODAL 5: CUSTOM CONFIRMATION MODAL -->
-    <dialog id="confirmModal" class="app-dialog" style="max-width: 440px;">
+    <dialog id="confirmModal" class="app-dialog modal-sm">
       <div class="dialog-content">
         <header class="dialog-header">
-          <h4 id="confirmModalTitle" style="font-size: 1.05rem; font-weight: 800; color: var(--text-main);">Confirm Action</h4>
+          <h4 id="confirmModalTitle" class="confirm-modal-title">Confirm Action</h4>
           <button id="closeConfirmModalBtn" class="dialog-close-btn">&times;</button>
         </header>
         <div class="dialog-body modal-scrollable">
-          <p id="confirmModalMessage" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">Are you sure you want to proceed?</p>
+          <p id="confirmModalMessage" class="confirm-modal-msg">Are you sure you want to proceed?</p>
         </div>
         <footer class="dialog-footer">
           <button type="button" id="confirmCancelBtn" class="btn btn-outline">Cancel</button>
@@ -958,19 +958,19 @@
     </dialog>
 
     <!-- MODAL 6: PERMISSION GUARD MODAL -->
-    <dialog id="permissionGuardModal" class="app-dialog" style="max-width: 460px;">
+    <dialog id="permissionGuardModal" class="app-dialog modal-guard">
       <div class="dialog-content">
         <header class="dialog-header">
-          <h4 style="font-size: 1.05rem; font-weight: 800; color: var(--admin-badge); display: flex; align-items: center; gap: 0.4rem;">
+          <h4 class="permission-guard-title">
             <span>🛡️</span> Admin Permission Required
           </h4>
           <button id="closePermissionGuardBtn" class="dialog-close-btn">&times;</button>
         </header>
         <div class="dialog-body modal-scrollable">
-          <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.45;">
+          <p class="guard-primary-text">
             This module requires <strong>Workspace Administrator</strong> privileges. You are currently browsing as a <strong>Team Member</strong>.
           </p>
-          <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.6rem;">
+          <p class="guard-secondary-text">
             Would you like to temporarily elevate your role to Admin to test this module?
           </p>
         </div>
