@@ -16,11 +16,8 @@ const INITIAL_PROJECTS = [
 ];
 
 const INITIAL_TEAM_MEMBERS = [
-  { id: 'usr-1', name: 'Alex Rivera', role: 'Engineering Lead', department: 'Engineering', avatar: 'AR', permission: 'Admin', status: 'online' },
-  { id: 'usr-2', name: 'Maya Lin', role: 'Staff Product Designer', department: 'Design', avatar: 'ML', permission: 'Member', status: 'focus' },
-  { id: 'usr-3', name: 'Jordan Reed', role: 'Senior Product Manager', department: 'Product', avatar: 'JR', permission: 'Manager', status: 'online' },
-  { id: 'usr-4', name: 'Samira Khan', role: 'Lead Frontend Engineer', department: 'Engineering', avatar: 'SK', permission: 'Member', status: 'busy' },
-  { id: 'usr-5', name: 'David Zhao', role: 'Cloud Architect', department: 'DevOps', avatar: 'DZ', permission: 'Member', status: 'offline' }
+  { id: 'admin', name: 'Admin', role: 'Workspace Administrator', department: 'Management', avatar: 'AD', permission: 'Admin', status: 'online' },
+  { id: 'user', name: 'User', role: 'Standard User', department: 'Productivity', avatar: 'US', permission: 'Member', status: 'online' }
 ];
 
 function getRelativeDate(daysOffset) {
@@ -38,15 +35,15 @@ const INITIAL_TASKS = [
     status: 'in-progress',
     priority: 'Urgent',
     deadline: getRelativeDate(1), // Tomorrow
-    assigneeId: 'usr-4',
+    assigneeId: 'admin',
     subtasks: [
       { id: 'sub-1', title: 'Define event bus interfaces', done: true },
       { id: 'sub-2', title: 'Add optimistic UI cache', done: true },
       { id: 'sub-3', title: 'Write integration test specs', done: false }
     ],
     comments: [
-      { id: 'c-1', author: 'Alex Rivera', text: 'Checked the PR draft. Performance benchmarks look 30% faster!', time: '2 hours ago' },
-      { id: 'c-2', author: 'Samira Khan', text: 'Finishing up optimistic rollbacks today.', time: '45 mins ago' }
+      { id: 'c-1', author: 'Admin', text: 'Checked the PR draft. Performance benchmarks look 30% faster!', time: '2 hours ago' },
+      { id: 'c-2', author: 'User', text: 'Finishing up optimistic rollbacks today.', time: '45 mins ago' }
     ]
   },
   {
@@ -57,14 +54,14 @@ const INITIAL_TASKS = [
     status: 'review',
     priority: 'High',
     deadline: getRelativeDate(3),
-    assigneeId: 'usr-2',
+    assigneeId: 'user',
     subtasks: [
       { id: 'sub-4', title: 'Figma high-fidelity prototypes', done: true },
       { id: 'sub-5', title: 'Design system tokens validation', done: true },
       { id: 'sub-6', title: 'Accessibility contrast review', done: true }
     ],
     comments: [
-      { id: 'c-3', author: 'Maya Lin', text: 'Ready for stakeholder sign-off in review column.', time: 'Yesterday' }
+      { id: 'c-3', author: 'User', text: 'Ready for stakeholder sign-off in review column.', time: 'Yesterday' }
     ]
   },
   {
@@ -75,7 +72,7 @@ const INITIAL_TASKS = [
     status: 'todo',
     priority: 'High',
     deadline: getRelativeDate(5),
-    assigneeId: 'usr-1',
+    assigneeId: 'admin',
     subtasks: [
       { id: 'sub-7', title: 'Configure APNs certificates', done: true },
       { id: 'sub-8', title: 'Build background task runner', done: false }
@@ -90,13 +87,13 @@ const INITIAL_TASKS = [
     status: 'done',
     priority: 'Medium',
     deadline: getRelativeDate(-2), // Completed
-    assigneeId: 'usr-5',
+    assigneeId: 'user',
     subtasks: [
       { id: 'sub-9', title: 'Run k6 load test suite', done: true },
       { id: 'sub-10', title: 'Document Grafana metric spikes', done: true }
     ],
     comments: [
-      { id: 'c-4', author: 'David Zhao', text: 'Scaled gracefully up to 75k RPS under 180ms p99.', time: '2 days ago' }
+      { id: 'c-4', author: 'User', text: 'Scaled gracefully up to 75k RPS under 180ms p99.', time: '2 days ago' }
     ]
   },
   {
@@ -107,7 +104,7 @@ const INITIAL_TASKS = [
     status: 'todo',
     priority: 'Urgent',
     deadline: getRelativeDate(0), // Due Today
-    assigneeId: 'usr-5',
+    assigneeId: 'admin',
     subtasks: [
       { id: 'sub-11', title: 'Review IAM role permissions', done: false },
       { id: 'sub-12', title: 'Export CloudTrail audit hashes', done: false }
@@ -122,7 +119,7 @@ const INITIAL_TASKS = [
     status: 'in-progress',
     priority: 'High',
     deadline: getRelativeDate(4),
-    assigneeId: 'usr-3',
+    assigneeId: 'user',
     subtasks: [
       { id: 'sub-13', title: 'Record 60s product screencast', done: true },
       { id: 'sub-14', title: 'Write introductory blog post', done: false }
@@ -137,7 +134,7 @@ const INITIAL_TASKS = [
     status: 'done',
     priority: 'Low',
     deadline: getRelativeDate(-5),
-    assigneeId: 'usr-4',
+    assigneeId: 'admin',
     subtasks: [
       { id: 'sub-15', title: 'Audit breakpoint regressions', done: true }
     ],
@@ -151,17 +148,17 @@ const INITIAL_TASKS = [
     status: 'backlog',
     priority: 'Medium',
     deadline: getRelativeDate(9),
-    assigneeId: 'usr-3',
+    assigneeId: 'user',
     subtasks: [],
     comments: []
   }
 ];
 
 const INITIAL_AUDIT_LOGS = [
-  { id: 'aud-1', action: 'CREATE', type: 'task', text: 'Task "TSK-101" created in E-Commerce Redesign', user: 'Alex Rivera', time: '10 mins ago' },
-  { id: 'aud-2', action: 'STATUS', type: 'task', text: 'Task "TSK-104" moved to Completed', user: 'David Zhao', time: '2 hours ago' },
-  { id: 'aud-3', action: 'UPDATE', type: 'project', text: 'Project "Mobile iOS App v2" updated', user: 'Jordan Reed', time: '5 hours ago' },
-  { id: 'aud-4', action: 'LOGIN', type: 'system', text: 'Workspace admin session initialized', user: 'Alex Rivera', time: 'Today' }
+  { id: 'aud-1', action: 'CREATE', type: 'task', text: 'Task "TSK-101" created in E-Commerce Redesign', user: 'Admin', time: '10 mins ago' },
+  { id: 'aud-2', action: 'STATUS', type: 'task', text: 'Task "TSK-104" moved to Completed', user: 'User', time: '2 hours ago' },
+  { id: 'aud-3', action: 'UPDATE', type: 'project', text: 'Project "Mobile iOS App v2" updated', user: 'Admin', time: '5 hours ago' },
+  { id: 'aud-4', action: 'LOGIN', type: 'system', text: 'Workspace admin session initialized', user: 'Admin', time: 'Today' }
 ];
 
 // ============================================================================
@@ -311,7 +308,15 @@ class TaskFlowApp {
   loadTeamMembers() {
     try {
       const stored = localStorage.getItem('taskflow_members');
-      return stored ? JSON.parse(stored) : INITIAL_TEAM_MEMBERS;
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.some(m => m.id === 'usr-1' || m.name === 'Alex Rivera')) {
+          localStorage.setItem('taskflow_members', JSON.stringify(INITIAL_TEAM_MEMBERS));
+          return INITIAL_TEAM_MEMBERS;
+        }
+        return parsed;
+      }
+      return INITIAL_TEAM_MEMBERS;
     } catch (e) {
       return INITIAL_TEAM_MEMBERS;
     }
@@ -328,7 +333,15 @@ class TaskFlowApp {
   loadTasks() {
     try {
       const stored = localStorage.getItem('taskflow_tasks');
-      return stored ? JSON.parse(stored) : INITIAL_TASKS;
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.some(t => t.assigneeId === 'usr-1' || t.assigneeId === 'usr-4')) {
+          localStorage.setItem('taskflow_tasks', JSON.stringify(INITIAL_TASKS));
+          return INITIAL_TASKS;
+        }
+        return parsed;
+      }
+      return INITIAL_TASKS;
     } catch (e) {
       return INITIAL_TASKS;
     }
@@ -742,11 +755,11 @@ class TaskFlowApp {
     this.stayAsMemberBtn?.addEventListener('click', () => this.permissionGuardModal.close());
     this.elevateToAdminBtn?.addEventListener('click', () => {
       this.permissionGuardModal.close();
-      const adminUser = this.teamMembers.find(m => m.permission === 'Admin');
+      const adminUser = this.teamMembers.find(m => m.permission === 'Admin') || this.teamMembers[0];
       if (adminUser) {
         this.currentUser = adminUser;
         this.updateUserSessionUI();
-        this.showToast(`Elevated session to ${adminUser.name} (Admin)`);
+        this.showToast(`Elevated session to Admin mode`);
         this.switchView('adminView');
       }
     });
@@ -912,15 +925,15 @@ class TaskFlowApp {
   // ==========================================================================
   toggleAdminRole() {
     if (this.isAdmin()) {
-      // Demote to a standard member persona
+      // Demote to standard user persona
       const member = this.teamMembers.find(m => m.permission === 'Member') || this.teamMembers[1];
       this.currentUser = member;
-      this.showToast(`Switched to Team Member view (${member.name})`);
+      this.showToast(`Switched to User mode (${member.name})`);
     } else {
       // Elevate to Admin persona
       const admin = this.teamMembers.find(m => m.permission === 'Admin') || this.teamMembers[0];
       this.currentUser = admin;
-      this.showToast(`Elevated session to Workspace Admin (${admin.name})`);
+      this.showToast(`Elevated session to Admin mode (${admin.name})`);
     }
     this.updateUserSessionUI();
     this.soundFX.play('click');
